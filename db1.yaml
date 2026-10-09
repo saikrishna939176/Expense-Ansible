@@ -72,16 +72,16 @@
     ansible.builtin.expect:
       command: sudo mysql_secure_installation
       responses:
-        "Enter password for user temporary root:" : "{{ actual_password }}\n"
-
-        "Press y\\|Y for Yes, any other key for No:": "No"
-
-        "New password:": "{{ mysql_root_password }}\n"
-        "Re- enterpassword": "{{ mysql_root_password }}\n"
-
-        "Remove anonymous users\\? \\(Press y\\|Y for Yes, any other key for No\\) :": "Y"
-        "Disallow root login remotely\\? \\(Press y\\|Y for Yes, any other key for No\\) :": "Y"
-        "Remove test database and access to it\\? \\(Press y\\|Y for Yes, any other key for No\\) :": "Y"
-        "Reload privilege tables now\\? \\(Press y\\|Y for Yes, any other key for No\\) :": "Y"
-        no_log: true
+          # We append \n to simulate hitting the 'Enter' key
+          '(?i)password for user root': "{{ clean_mysql_password }}\n"
+          
+          # Simplified regex matches for subsequent prompts to prevent hanging
+          '(?i)press y\|y for yes': "No\n"
+          '(?i)new password:': "YourNewSecurePassword123!\n"
+          '(?i)re-enter new password:': "YourNewSecurePassword123!\n"
+          '(?i)remove anonymous users': "Y\n"
+          '(?i)disallow root login remotely': "Y\n"
+          '(?i)remove test database': "Y\n"
+          '(?i)reload privilege tables now': "Y\n"
+    no_log: true
     when: mysql_connection_timeout.failed is true
