@@ -51,11 +51,11 @@
       update_cache: yes
    - name: print info
      ansible.builtin.debug:
-      msg: "{{ERROR}}"
+       msg: "{{ERROR}}"
    - name: Start and Enable MySQL Service
      ansible.builtin.service:
-      name: mysqld
-      state: started
-      enabled: yes 
+        name: mysqld
+        state: started
+        enabled: yes 
      ignore_errors: true
 
