@@ -61,15 +61,15 @@
 
 
   - name: check password
-    ansible.built.debug:
+    ansible.builtin.debug:
       msg: "matched"
     when: actual_password == mysql_root_password
 
   - name: check password
-    ansible.built.debug:
+    ansible.builtin.debug:
       msg: "Not matched"
     when: actual_password != mysql_root_password
-    
+
   - name: print temp_password
     ansible.builtin.debug:
       msg: "{{actual_password}}"
