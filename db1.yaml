@@ -1,5 +1,7 @@
 - name: configure the DB server
   hosts: db
+  vars:
+    login_host: 172.31.45.57
   tasks:
   - name: install mysql-community
     ansible.builtin.command: sudo dnf install -y https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
@@ -16,3 +18,10 @@
       state: started
       enabled: yes
     become: yes
+
+  - name: check DB connection
+    ansible.mysql.mysql_info:
+      login_user: "root"
+      login_password: ExpenseApp@1
+      login_host: "{{ login_host }}"
+      filter: version
