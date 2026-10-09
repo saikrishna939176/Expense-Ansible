@@ -57,7 +57,7 @@
   - name: Set password variable safely
     ansible.builtin.set_fact:
         # We target the stdout directly and extract everything after the final space
-      actual_password: "{{ (temp_password.stdout | regex_findall(r'root@localhost:\s*(\S+)')) | last | default('NOT_FOUND') }}"
+      actual_password: "{{ temp_password.stdout | regex_findall('root@localhost:\\s*(\\S+)') | last | default('NOT_FOUND') }}"
 
   - name: print temp_password
     ansible.builtin.debug:
