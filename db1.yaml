@@ -73,12 +73,12 @@
       command: sudo mysql_secure_installation
       responses:
           # We append \n to simulate hitting the 'Enter' key
-          '(?i)password for user root': "{{ clean_mysql_password }}\n"
+          '(?i)password for user root': "{{ actual_password }}\n"
           
           # Simplified regex matches for subsequent prompts to prevent hanging
           '(?i)press y\|y for yes': "No\n"
-          '(?i)new password:': "YourNewSecurePassword123!\n"
-          '(?i)re-enter new password:': "YourNewSecurePassword123!\n"
+          '(?i)new password:': "{{mysql_root_password}}\n"
+          '(?i)re-enter new password:': "{{mysql_root_password}}\n"
           '(?i)remove anonymous users': "Y\n"
           '(?i)disallow root login remotely': "Y\n"
           '(?i)remove test database': "Y\n"
