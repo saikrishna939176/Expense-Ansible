@@ -18,6 +18,11 @@
       state: started
       enabled: yes
     become: yes
+  - name: install python mysql dependencies
+    ansible.builtin.pip:
+      name: 
+      - PyMySQL
+      - cryptography
 
   - name: check DB connection
     community.mysql.mysql_info:
