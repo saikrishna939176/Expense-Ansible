@@ -2,36 +2,40 @@
   hosts: localhost
   become: yes
   tasks:
-  - name: Download MySQL Community Repository RPM
-    ansible.builtin.get_url:
-      url: https://mysql.com
-      # url: https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
-      dest: /tmp/mysql80-community-release-el9-1.noarch.rpm
-      http_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+  # - name: Download MySQL Community Repository RPM
+  #   ansible.builtin.get_url:
+  #     url: https://mysql.com
+  #     # url: https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
+  #     dest: /tmp/mysql80-community-release-el9-1.noarch.rpm
+  #     http_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
 
-  - name: Install Mysql Community Repository RPM
-    ansible.builtin.dnf:
-      name: /tmp/mysql80-community-release-el9-1.noarch.rpm
-      state: present
+  # - name: Install Mysql Community Repository RPM
+  #   ansible.builtin.dnf:
+  #     name: /tmp/mysql80-community-release-el9-1.noarch.rpm
+  #     state: present
 
-  - name: Import MySQL GPG Key
-    ansible.builtin.rpm_key:
-      state: present
-      key: https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
+  # - name: Import MySQL GPG Key
+  #   ansible.builtin.rpm_key:
+  #     state: present
+  #     key: https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
 
-  - name: Install MySQL Server Package
-    ansible.builtin.dnf:  
-      name: mysql-community-server
-      state: present
-    ignore_errors: true
-    register: ERROR
+  # - name: Install MySQL Server Package
+  #   ansible.builtin.dnf:  
+  #     name: mysql-community-server
+  #     state: present
+  #   ignore_errors: true
+  #   register: ERROR
 
-  - name: print info
-    ansible.builtin.debug:
-      msg: "{{ERROR}}"
-  - name: Start and Enable MySQL Service
-    ansible.builtin.service:
-      name: mysqld
-      state: started
-      enabled: yes 
-    ignore_errors: true
+  # - name: print info
+  #   ansible.builtin.debug:
+  #     msg: "{{ERROR}}"
+  # - name: Start and Enable MySQL Service
+  #   ansible.builtin.service:
+  #     name: mysqld
+  #     state: started
+  #     enabled: yes 
+  #   ignore_errors: true
+    - name: Install mysql server
+      ansible.builtin.dnf:
+        name: mysql-server
+        state: latest
