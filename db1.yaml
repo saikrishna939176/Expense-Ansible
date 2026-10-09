@@ -1,0 +1,17 @@
+- name: configure the DB server
+  hosts: web
+  tasks:
+  - name: install mysql-community
+    ansible.builtin.command: sudo dnf install -y https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
+  
+  - name: import rpm
+    ansible.builtin.command: sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
+
+  - name: install mysql-community
+    ansible.builtin.command: sudo dnf install -y mysql-community-server
+
+  - name: Run & enable mysql
+    ansible.builtin.service:
+      name: mysqld
+      state: started
+      enabled: yes
