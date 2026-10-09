@@ -83,5 +83,5 @@
           '(?i)disallow root login remotely': "Y\n"
           '(?i)remove test database': "Y\n"
           '(?i)reload privilege tables now': "Y\n"
-    no_log: true
+    no_log: false
     when: mysql_connection_timeout.failed is true
