@@ -25,3 +25,9 @@
       login_password: ExpenseApp@1
       login_host: "{{ login_host }}"
       filter: version
+    ignore_errors: true
+    register: mysql_connection_timeout
+
+  - name: print output
+    ansible.builtin.debug:
+      msg: "output {{mysql_connection_timeout}}"
