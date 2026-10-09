@@ -35,7 +35,17 @@
   #     state: started
   #     enabled: yes 
   #   ignore_errors: true
-    - name: Install mysql server
+    # - name: Install mysql server
+    #   ansible.builtin.dnf:
+    #     name: mysql-server
+    #     state: latest
+    - name: Install MySQL repository
+      ansible.builtin.dnf:
+        name: https://mysql.com
+        state: present
+        disable_gpg_check: true
+
+    - name: Install MySQL server
       ansible.builtin.dnf:
         name: mysql-server
-        state: latest
+        state: present
