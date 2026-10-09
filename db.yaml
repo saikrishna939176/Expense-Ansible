@@ -24,6 +24,7 @@
 
   - name: Install MySQL Server Package
     ansible.builtin.command: dnf install -y mysql-community-server
+    register: ERROR
 
   - name: print info
     ansible.builtin.debug:
