@@ -2,12 +2,17 @@
   hosts: localhost
   become: yes
   tasks:
-  # - name: Download MySQL Community Repository RPM
-  #   ansible.builtin.get_url:
-  #     url: https://mysql.com
-  #     # url: https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
-  #     dest: /tmp/mysql80-community-release-el9-1.noarch.rpm
-  #     http_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+  - name: Download MySQL Community Repository RPM
+    # ansible.builtin.get_url:
+    #   url: https://mysql.com
+    #   # url: https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
+    #   dest: /tmp/mysql80-community-release-el9-1.noarch.rpm
+    #   http_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+    ansible.builtin.command: dnf install -y https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
+    register: info
+  - name: print info
+    ansible.builtin.debug:
+      msg: "{{info}}"
 
   # - name: Install Mysql Community Repository RPM
   #   ansible.builtin.dnf:
@@ -35,29 +40,4 @@
   #     state: started
   #     enabled: yes 
   #   ignore_errors: true
-    - name: Configure MySQL 8.0 Community Repository File
-      ansible.builtin.copy:
-        dest: /etc/yum.repos.d/mysql-community.repo
-        content: |
-          [mysql80-community]
-          name=MySQL 8.0 Community Server
-          baseurl=https://mysql.com
-          enabled=1
-          gpgcheck=1
-          gpgkey=https://mysql.com
-        owner: root
-        group: root
-        mode: '0644'
 
-    - name: Install MySQL Server Package
-      ansible.builtin.dnf:
-        name: mysql-community-server
-        state: present
-        update_cache: yes
-        disable_gpg_check: no
-
-    - name: Start and Enable MySQL Service
-      ansible.builtin.service:
-        name: mysqld
-        state: started
-        enabled: yes
