@@ -18,6 +18,12 @@
       state: started
       enabled: yes
     become: yes
+
+  - name: Ensure python3-pip is installed
+    ansible.builtin.dnf:
+      name: python3-pip
+      state: present
+    become: yes
   - name: install python mysql dependencies
     ansible.builtin.pip:
       name: 
