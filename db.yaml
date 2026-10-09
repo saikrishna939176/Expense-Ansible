@@ -35,17 +35,41 @@
   #     state: started
   #     enabled: yes 
   #   ignore_errors: true
-    # - name: Install mysql server
-    #   ansible.builtin.dnf:
-    #     name: mysql-server
-    #     state: latest
-    - name: Install MySQL repository
-      ansible.builtin.dnf:
-        name: https://mysql.com
-        state: present
-        disable_gpg_check: true
+    - name: Configure MySQL 8.0 Community Repository
+      ansible.builtin.yum_repository:
+        name: mysql80-community
+        description: MySQL 8.0 Community Server
+        baseurl: https://mysql.com
+        gpgcheck: yes
+        gpgkey: https://mysql.com
+        enabled: yes
 
-    - name: Install MySQL server
+    - name: Configure MySQL Connectors Community Repository
+      ansible.builtin.yum_repository:
+        name: mysql-connectors-community
+        description: MySQL Connectors Community
+        baseurl: https://mysql.com
+        gpgcheck: yes
+        gpgkey: https://mysql.com
+        enabled: yes
+
+    - name: Configure MySQL Tools Community Repository
+      ansible.builtin.yum_repository:
+        name: mysql-tools-community
+        description: MySQL Tools Community
+        baseurl: https://mysql.com
+        gpgcheck: yes
+        gpgkey: https://mysql.com
+        enabled: yes
+
+    - name: Install MySQL Server Package
       ansible.builtin.dnf:
-        name: mysql-server
+        name: mysql-community-server
         state: present
+        update_cache: yes
+
+    - name: Start and Enable MySQL Service
+      ansible.builtin.service:
+        name: mysqld
+        state: started
+        enabled: yes
