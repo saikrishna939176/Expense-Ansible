@@ -1,7 +1,7 @@
 - name: configure the DB server
-  hosts: db
+  hosts: localhost
   vars:
-    login_host: 172.31.45.57
+    login_host: localhost
   vars_prompt:
   - name: mysql_root_password
     prompt: please enter Mysql root login_password
@@ -84,7 +84,7 @@
       command: sudo mysql_secure_installation
       responses:
           # We append \n to simulate hitting the 'Enter' key
-          '(?i)password for user root': "{{ mysql_root_password }}\n"
+          '(?i)password for user root': "{{ actual_password }}\n"
           
           # Simplified regex matches for subsequent prompts to prevent hanging
           '(?i)press y\|y for yes': "No\n"
