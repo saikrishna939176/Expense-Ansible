@@ -26,7 +26,7 @@
 
   - name: print info
     ansible.builtin.debug:
-      msg: "ERROR"
+      msg: "{{ERROR}}"
   - name: Start and Enable MySQL Service
     ansible.builtin.service:
       name: mysqld
