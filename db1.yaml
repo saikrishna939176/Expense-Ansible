@@ -52,6 +52,7 @@
   - name: capture root_password_before changing
     ansible.builtin.command: sudo grep 'temporary password' /var/log/mysqld.log
     register: temp_password
+    changed_when: false
 
   - name: Set password variable using regex
     ansible.builtin.set_fact:
