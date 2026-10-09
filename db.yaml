@@ -9,15 +9,16 @@
     #   dest: /tmp/mysql80-community-release-el9-1.noarch.rpm
     #   http_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
     ansible.builtin.command: dnf install -y https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
-    register: info
-  - name: print info
-    ansible.builtin.debug:
-      msg: "{{info}}"
+
 
   - name: Import MySQL GPG Key
     ansible.builtin.rpm_key:
       state: present
-      key: https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
+      key: "{{ item }}"
+
+    loop:
+      - /etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
+      - https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
 
   - name: Install MySQL Server Package
     ansible.builtin.dnf:  
