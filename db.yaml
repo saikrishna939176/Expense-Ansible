@@ -21,13 +21,9 @@
   #     - https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
   - name: Import MySQL GPG Key
     ansible.builtin.command: sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
-    
+
   - name: Install MySQL Server Package
-    ansible.builtin.dnf:  
-      name: mysql-community-server
-      state: present
-    ignore_errors: true
-    register: ERROR
+    ansible.builtin.command: dnf install -y mysql-community-server
 
   - name: print info
     ansible.builtin.debug:
