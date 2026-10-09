@@ -2,20 +2,20 @@
   hosts: localhost
   become: yes
   tasks:
-  # - name: Download MySQL Community Repository RPM
-  #   ansible.builtin.get_url:
-  #     url: https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
-  #     dest: /tmp/mysql80-community-release-el9-1.noarch.rpm
+  - name: Download MySQL Community Repository RPM
+    ansible.builtin.get_url:
+      url: https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
+      dest: /tmp/mysql80-community-release-el9-1.noarch.rpm
 
-  # - name: Install Mysql Community Repository RPM
-  #   anible.builtin.dnf:
-  #     name: /tmp/mysql80-community-release-el9-1.noarch.rpm
-  #     state: present
+  - name: Install Mysql Community Repository RPM
+    anible.builtin.dnf:
+      name: /tmp/mysql80-community-release-el9-1.noarch.rpm
+      state: present
 
-  # - name: Import MySQL GPG Key
-  #   anible.builtin.rpm_key:
-  #     state: present
-  #     key: https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
+  - name: Import MySQL GPG Key
+    anible.builtin.rpm_key:
+      state: present
+      key: https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
 
   - name: Install MySQL Server Package
     ansible.builtin.dnf:  
