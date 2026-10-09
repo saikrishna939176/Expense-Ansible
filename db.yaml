@@ -21,6 +21,7 @@
     ansible.builtin.dnf:  
       name: mysql-community-server
       state: present
+      register: Error
 
   - name: Start and Enable MySQL Service
     ansible.builtin.service:
