@@ -20,9 +20,9 @@
   - name: Install MySQL Server Package
     ansible.builtin.dnf:  
       name: mysql-community-server
+      ignore_errors: true
       state: present
       register: ERROR
-      ignore_errors: true
 
   - name: print info
     ansible.builtin.debug:
