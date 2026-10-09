@@ -4,7 +4,8 @@
   tasks:
   - name: Download MySQL Community Repository RPM
     ansible.builtin.get_url:
-      url: https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
+      url: https://mysql.com
+      # url: https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
       dest: /tmp/mysql80-community-release-el9-1.noarch.rpm
       http_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
 
