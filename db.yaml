@@ -21,10 +21,15 @@
     ansible.builtin.dnf:  
       name: mysql-community-server
       state: present
-      register: Error
+      register: ERROR
+      ignore_errors: true
 
+  - name: print info
+    ansible.builtin.debug:
+      msg: "ERROR"
   - name: Start and Enable MySQL Service
     ansible.builtin.service:
       name: mysqld
       state: started
       enabled: yes 
+      ignore_errors: true
