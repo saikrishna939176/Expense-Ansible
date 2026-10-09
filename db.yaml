@@ -35,32 +35,24 @@
   #     state: started
   #     enabled: yes 
   #   ignore_errors: true
-    - name: Configure MySQL 8.0 Community Repository
-      ansible.builtin.yum_repository:
-        name: mysql80-community
-        description: MySQL 8.0 Community Server
-        baseurl: https://mysql.com
-        gpgcheck: yes
-        gpgkey: https://mysql.com
-        enabled: yes
+    - name: Import MySQL 2023 GPG Key
+      ansible.builtin.rpm_key:
+        state: present
+        key: https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
 
-    - name: Configure MySQL Connectors Community Repository
-      ansible.builtin.yum_repository:
-        name: mysql-connectors-community
-        description: MySQL Connectors Community
-        baseurl: https://mysql.com
-        gpgcheck: yes
-        gpgkey: https://mysql.com
-        enabled: yes
+    - name: Install MySQL Community Repository via URL
+      ansible.builtin.dnf:
+        name: https://dev.mysql.com/get/mysql84-community-release-el9-1.noarch.rpm
+        state: present
+        disable_gpg_check: no
 
-    - name: Configure MySQL Tools Community Repository
-      ansible.builtin.yum_repository:
-        name: mysql-tools-community
-        description: MySQL Tools Community
-        baseurl: https://mysql.com
-        gpgcheck: yes
-        gpgkey: https://mysql.com
-        enabled: yes
+    - name: Disable MySQL 8.4 LTS (If you want to pin to MySQL 8.0)
+      ansible.builtin.command: dnf config-manager --disable mysql-8.4-lts-community
+      changed_when: false
+
+    - name: Enable MySQL 8.0 Community Repository
+      ansible.builtin.command: dnf config-manager --enable mysql80-community
+      changed_when: false
 
     - name: Install MySQL Server Package
       ansible.builtin.dnf:
