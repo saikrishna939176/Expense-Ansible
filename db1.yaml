@@ -1,5 +1,5 @@
 - name: configure the DB server
-  hosts: web
+  hosts: db
   tasks:
   - name: install mysql-community
     ansible.builtin.command: sudo dnf install -y https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
