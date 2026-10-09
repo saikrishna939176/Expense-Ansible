@@ -53,7 +53,12 @@
     ansible.builtin.command: sudo grep 'temporary password' /var/log/mysqld.log
     register: temp_password
 
+  - name: Set password variable using regex
+    ansible.builtin.set_fact:
+      temp_password_rex: "{{ temp_password.stdout | json_query('stdout') | default(temp_password.stdout) | regex_search('root@localhost:\\s*(\\S+)', '\\1') | first }}"
+
+
   - name: print temp_password
     ansible.builtin.debug:
       msg: -|
-        "Temp_password is ::{{temp_password.localhost:}}"
+        "Temp_password is ::{{temp_password_rex}}"
