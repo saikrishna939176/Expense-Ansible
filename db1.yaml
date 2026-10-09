@@ -56,4 +56,4 @@
   - name: print temp_password
     ansible.builtin.debug:
       msg: -|
-        "Temp_password is ::{{temp_password}}"
+        "Temp_password is ::{{temp_password.root@localhost:}}"
