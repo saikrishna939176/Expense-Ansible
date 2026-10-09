@@ -20,7 +20,7 @@
     become: yes
 
   - name: check DB connection
-    ansible.mysql.mysql_info:
+    community.mysql.mysql_info:
       login_user: "root"
       login_password: ExpenseApp@1
       login_host: "{{ login_host }}"
