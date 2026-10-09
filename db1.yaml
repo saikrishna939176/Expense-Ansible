@@ -64,7 +64,7 @@
       msg: "{{actual_password}}"
 
   - name: Ensure pexpect is installed for the expect module
-    ansible,builtin.pip:
+    ansible.builtin.pip:
       name: pexpect
     become: true
 
