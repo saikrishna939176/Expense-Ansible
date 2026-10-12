@@ -1,5 +1,5 @@
 - name: configure the DB server
-  hosts: localhost
+  hosts: "172.31.35.66"
   vars:
     mysql_server_host: "172.31.35.66"
     mysql_admin_user: "root"
