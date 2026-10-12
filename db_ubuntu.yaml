@@ -4,4 +4,8 @@
   - name: Install MySQL Server
     ansible.builtin.apt:
       name: mysql-server
-      state: installed
+      state: latest
+  - name: Run the service 
+    ansible.builtin.service:
+      name: mysqld
+      state: started
