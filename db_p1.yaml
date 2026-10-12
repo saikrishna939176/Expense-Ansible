@@ -1,0 +1,68 @@
+- name: configure the DB server
+  hosts: localhost
+  vars:
+    mysql_server_host: "172.31.35.66"
+    mysql_admin_user: "root"
+    #mysql_admin_password: ""
+    #target_db_user: "root"
+    #target_db_password: ""
+  vars_prompt:
+  - name: mysql_root_password
+    prompt: please enter Mysql root login_password
+    private: no
+
+  tasks:
+  - name: check version is installed or Not
+    ansible.builtin.command: sudo mysqld --version
+    register: Version
+    ignore_errors: true
+
+  - name: print version info
+    ansible.builtin.debug:
+      msg: "{{Version}}"
+
+  - name: install mysql-community
+    ansible.builtin.command: sudo dnf install -y https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
+    when: Version.rc != 0
+  
+  - name: import rpm
+    ansible.builtin.command: sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
+    when: Version.rc != 0
+
+  - name: install mysql-community
+    ansible.builtin.command: sudo dnf install -y mysql-community-server
+    when: Version.rc != 0
+
+  - name: Run & enable mysql
+    ansible.builtin.service:
+      name: mysqld
+      state: started
+      enabled: yes
+    become: yes
+
+  - name: Ensure python3-pip is installed
+    ansible.builtin.dnf:
+      name: python3-pip
+      state: present
+    become: yes
+  - name: install python mysql dependencies
+    ansible.builtin.pip:
+      name: 
+      - PyMySQL
+      - cryptography
+      executable: pip3.9
+
+  - name: Configure MySQL user privileges remotely over the network
+    ansible.mysql.mysql_user:
+        # 1. Connection Details (How Ansible talks to the server over the wire)
+        login_host: "{{ mysql_server_host }}"
+        login_port: 3306
+        login_user: "{{ mysql_admin_user }}"
+        login_password: "{{ mysql_root_password }}"
+
+        # # 2. Target Privileges (What you are modifying inside the DB)
+        # name: "{{ target_db_user }}"
+        # password: "{{ mysql_root_password }}"
+        # host: "{{ allowed_source_ip }}"   # Use "%" if you want them to connect from anywhere
+        # priv: "*.*:ALL,GRANT"
+        # state: present
