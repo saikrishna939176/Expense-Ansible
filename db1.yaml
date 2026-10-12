@@ -11,6 +11,7 @@
   - name: check version is installed or Not
     ansible.builtin.command: sudo mysqld --version
     register: Version
+    ignore_errors: true
 
   - name: print version info
     ansible.builtin.debug:
