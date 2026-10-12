@@ -9,21 +9,24 @@
 
   tasks:
   - name: check version is installed or Not
-    ansible.builtin.command: sudo ansible --version
+    ansible.builtin.command: sudo mysqld --version
     register: Version
 
   - name: print version info
     ansible.builtin.debug:
       msg: "{{Version}}"
-      
+
   - name: install mysql-community
     ansible.builtin.command: sudo dnf install -y https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
+    when: Version.rc != 0
   
   - name: import rpm
     ansible.builtin.command: sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
+    when: Version.rc != 0
 
   - name: install mysql-community
     ansible.builtin.command: sudo dnf install -y mysql-community-server
+    when: Version.rc != 0
 
   - name: Run & enable mysql
     ansible.builtin.service:
