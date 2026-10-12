@@ -1,5 +1,6 @@
 - name: configure DB server
   hosts: localhost
+  become: yes
   tasks:
   - name: Install MySQL Server
     ansible.builtin.apt:
