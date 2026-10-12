@@ -8,6 +8,14 @@
     private: no
 
   tasks:
+  - name: check version is installed or Not
+    ansible.builtin.command: sudo ansible --version
+    register: Version
+
+  - name: print version info
+    ansible.builtin.debug:
+      msg: "{{Version}}"
+      
   - name: install mysql-community
     ansible.builtin.command: sudo dnf install -y https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
   

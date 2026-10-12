@@ -1,0 +1,18 @@
+- name: configure the DB server
+  hosts: localhost
+  vars:
+    login_host: localhost
+  # vars_prompt:
+  # - name: mysql_root_password
+  #   prompt: please enter Mysql root login_password
+  #   private: no
+
+  tasks:
+  - name: check version is installed or Not
+    ansible.builtin.command: sudo ansible --version
+    register: Version
+
+  - name: print version info
+    ansible.builtin.debug:
+      msg: "{{Version}}"
+      
