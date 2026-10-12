@@ -9,7 +9,7 @@
 
   tasks:
   - name: check version is installed or Not
-    ansible.builtin.command: sudo ansible --version
+    ansible.builtin.command: sudo mysqld --version
     register: Version
 
   - name: print version info
