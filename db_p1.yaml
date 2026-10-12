@@ -67,8 +67,12 @@
   - name: print info
     ansible.builtin.debug:
       msg: "{{mysql_connection_timeout}}"
+  - name: capture root_password_before changing
+    ansible.builtin.command: sudo grep 'temporary password' /var/log/mysqld.log
+    register: temp_password
+    changed_when: false
   - name: Set password variable safely
-    ansible.builtin.set_fact:
+    ansible.builtin.set_fact: 
         # We target the stdout directly and extract everything after the final space
       actual_password: "{{ temp_password.stdout | regex_findall('root@localhost:\\s*(\\S+)') | last | default('NOT_FOUND') }}"
 
