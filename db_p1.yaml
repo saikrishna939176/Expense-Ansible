@@ -4,8 +4,10 @@
     mysql_server_host: "172.31.35.66"
     mysql_admin_user: "root"
     #mysql_admin_password: ""
-    #target_db_user: "root"
-    #target_db_password: ""
+    target_db_user: "root"
+    target_db_password: "ExpenseApp@1"
+    allowed_source_ip: "%"
+
   vars_prompt:
   - name: mysql_root_password
     prompt: please enter Mysql root login_password
@@ -60,9 +62,9 @@
         login_user: "{{ mysql_admin_user }}"
         login_password: "{{ mysql_root_password }}"
 
-        # # 2. Target Privileges (What you are modifying inside the DB)
-        # name: "{{ target_db_user }}"
-        # password: "{{ mysql_root_password }}"
-        # host: "{{ allowed_source_ip }}"   # Use "%" if you want them to connect from anywhere
-        # priv: "*.*:ALL,GRANT"
-        # state: present
+        # 2. Target Privileges (What you are modifying inside the DB)
+        name: "{{ target_db_user }}"
+        password: "{{ mysql_root_password }}"
+        host: "{{ allowed_source_ip }}"   # Use "%" if you want them to connect from anywhere
+        priv: "*.*:ALL,GRANT"
+        state: present
