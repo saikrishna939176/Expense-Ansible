@@ -61,10 +61,49 @@
         login_port: 3306
         login_user: "{{ mysql_admin_user }}"
         login_password: "{{ mysql_root_password }}"
+    ignore_errors: true
+    register: mysql_connection_timeout
 
-        # 2. Target Privileges (What you are modifying inside the DB)
-        name: "{{ target_db_user }}"
-        password: "{{ mysql_root_password }}"
-        host: "{{ allowed_source_ip }}"   # Use "%" if you want them to connect from anywhere
-        priv: "*.*:ALL,GRANT"
-        state: present
+  - name: print info
+    ansible.builtin.debug:
+      msg: "{{mysql_connection_timeout}}"
+  - name: Set password variable safely
+    ansible.builtin.set_fact:
+        # We target the stdout directly and extract everything after the final space
+      actual_password: "{{ temp_password.stdout | regex_findall('root@localhost:\\s*(\\S+)') | last | default('NOT_FOUND') }}"
+
+
+
+  - name: print temp_password
+    ansible.builtin.debug:
+      msg: "{{actual_password}}"
+
+  - name: Ensure pexpect is installed for the expect module
+    ansible.builtin.pip:
+      name: pexpect
+    become: true
+
+  - name: Run mysql_secure_installation automatically
+    ansible.builtin.expect:
+      command: sudo mysql_secure_installation
+      responses:
+          # We append \n to simulate hitting the 'Enter' key
+          '(?i)password for user root': "{{ actual_password }}\n"
+          
+          # Simplified regex matches for subsequent prompts to prevent hanging
+          '(?i)press y\|y for yes': "No\n"
+          '(?i)new password:': "{{mysql_root_password}}\n"
+          '(?i)re-enter new password:': "{{mysql_root_password}}\n"
+          '(?i)remove anonymous users': "Y\n"
+          '(?i)disallow root login remotely': "Y\n"
+          '(?i)remove test database': "Y\n"
+          '(?i)reload privilege tables now': "Y\n"
+    no_log: false
+    when: mysql_connection_timeout.failed is true
+
+        # # 2. Target Privileges (What you are modifying inside the DB)
+        # name: "{{ target_db_user }}"
+        # password: "{{ mysql_root_password }}"
+        # host: "{{ allowed_source_ip }}"   # Use "%" if you want them to connect from anywhere
+        # priv: "*.*:ALL,GRANT"
+        # state: present
