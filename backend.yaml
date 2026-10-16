@@ -11,8 +11,11 @@
   tasks:
   - name: install nodejs version 20
     ansible.builtin.dnf:
-      name: "{{node_package_name}}"
+      name: "{{item}}"
       state: present
+    loop:
+    - "{{node_package_name}}"
+    - mysql
 
   - name: Verify Node.js installation
     ansible.builtin.command: node -v
