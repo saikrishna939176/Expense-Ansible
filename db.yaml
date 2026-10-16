@@ -2,6 +2,7 @@
   hosts: db
   vars:
     login_host: db.sharada.store
+    login_user: "root"
   vars_prompt:
   - name: mysql_root_password
     prompt: please enter Mysql root login_password
@@ -48,15 +49,24 @@
       - cryptography
       executable: pip3.9
 
-  - name: check DB connection
-    community.mysql.mysql_info:
-      login_user: "root"
-      login_password: "{{mysql_root_password}}"
-      login_host: "{{ login_host }}"
-      filter: version
-      remote_src: yes
-    ignore_errors: true
+  # - name: check DB connection
+  #   community.mysql.mysql_info:
+  #     login_user: "root"
+  #     login_password: "{{mysql_root_password}}"
+  #     login_host: "{{ login_host }}"
+  #     filter: version
+  #     # remote_src: yes
+  #   ignore_errors: true
+  #   register: mysql_connection_timeout
+  - name: Test MySQL login as a specific remote user
+    ansible.builtin.command: >
+      mysql -u {{ mysql_user }} -p'{{ mysql_root_password }}' -e "SELECT 1;"
+  # Execute the command as the remote user specified below
+    become: true
+    # become_user: remote_user_name 
     register: mysql_connection_timeout
+    ignore_errors: true
+    changed_when: false
 
   - name: print output
     ansible.builtin.debug:
