@@ -54,12 +54,12 @@
     ansible.builtin.copy:
       src: backend.service
       dest: /etc/systemd/system/backend.service
-  - name: install python mysql dependencies
-    ansible.builtin.pip:
-      name:
-      - PyMySQL
-      - cryptography
-      executable: pip3.9 
+  # - name: install python mysql dependencies
+  #   ansible.builtin.pip:
+  #     name:
+  #     - PyMySQL
+  #     - cryptography
+  #     executable: pip3.9 
   - name: import data into sql
     community.mysql.mysql_db:
       login_user: root
