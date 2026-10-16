@@ -1,5 +1,5 @@
 - name: confiure frontend server
-  hosts: localhost
+  hosts: frontend
   become: true
   tasks: 
   - name: install nginx server
