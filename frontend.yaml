@@ -1,0 +1,21 @@
+- name: confiure frontend server
+  hosts: localhost
+  become: true
+  tasks: 
+  - name: install nginx server
+    ansible.builtin.dnf:
+      name: nginx
+      state: latest
+  - name: start and enable nginx
+    ansible.builtin.service:
+      name: nginx
+      state: restarted
+      enabled: yes
+  # - name: delete default website
+  #   ansible.builtin.file:
+  #     path: /usr/share/nginx/html/
+  #     state: absent
+  # - name: create html directory
+  #   ansible.builtin.file:
+  #     path: /usr/share/nginx/html/
+  #     state: directory
