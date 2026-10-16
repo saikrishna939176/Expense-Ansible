@@ -3,7 +3,7 @@
   become: yes
   vars:
     node_package_name:  "nodejs20"
-    login_host: backend.sharada.store
+    login_host: db.sharada.store
   vars_prompt:
   - name: login_password
     prompt: please enter Mysql root login_password
