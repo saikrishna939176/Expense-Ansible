@@ -63,7 +63,7 @@
       mysql -u {{ mysql_user }} -p'{{ mysql_root_password }}' -e "SELECT 1;"
   # Execute the command as the remote user specified below
     become: true
-    # become_user: remote_user_name 
+    become_user: mysql_user
     register: mysql_connection_timeout
     ignore_errors: true
     changed_when: false
