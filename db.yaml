@@ -17,6 +17,7 @@
   - name: print version info
     ansible.builtin.debug:
       msg: "{{Version}}"
+      changed_when: false
 
   - name: install mysql-community
     ansible.builtin.command: sudo dnf install -y https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
