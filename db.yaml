@@ -127,4 +127,5 @@
     ansible.builtin.shell: >
       mysql -u {{ login_user }} -p'{{ mysql_root_password }}' < /tmp/create.sql
     register: sql_import
+    changed_when: false
     # when: mysql_connection_timeout.failed is true 
