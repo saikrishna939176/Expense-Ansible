@@ -1,5 +1,5 @@
 - name: configure the DB server
-  hosts: localhost
+  hosts: 
   vars:
     login_host: localhost
   vars_prompt:
