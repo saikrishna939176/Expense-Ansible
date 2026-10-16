@@ -60,10 +60,10 @@
   #   register: mysql_connection_timeout
   - name: Test MySQL login as a specific remote user
     ansible.builtin.command: >
-      mysql -u {{ mysql_user }} -p'{{ mysql_root_password }}' -e "SELECT 1;"
+      mysql -u {{ login_user }} -p'{{ mysql_root_password }}' -e "SELECT 1;"
   # Execute the command as the remote user specified below
     become: true
-    become_user: mysql_user
+    become_user: login_user
     register: mysql_connection_timeout
     ignore_errors: true
     changed_when: false
