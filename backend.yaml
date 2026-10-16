@@ -3,6 +3,11 @@
   become: yes
   vars:
     node_package_name:  "nodejs20"
+    login_host: localhost
+  vars_prompt:
+  - name: login_password
+    prompt: please enter Mysql root login_password
+    private: no
   tasks:
   - name: install nodejs version 20
     ansible.builtin.dnf:
@@ -44,3 +49,21 @@
     args:
       chdir: /app
     changed_when: false
+
+  - name: copy backend service
+    ansible.builtin.copy:
+      src: backend.service
+      dest: /etc/systemd/system/backend.service
+  - name: install python mysql dependencies
+    ansible.builtin.pip:
+      name:
+      - PyMySQL
+      - cryptography
+      executable: pip3.9 
+  - name: import data into sql
+    community.mysql.mysql_db:
+      login_user: root
+      login_password: "{{login_password}}"
+      login_host: "{{lolgin_host}}"
+      target: /app/schema/backend.sql
+      state: import
