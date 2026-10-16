@@ -15,7 +15,7 @@
       state: present
     loop:
     - "{{node_package_name}}"
-    - mysql
+    - mariadb105
 
   - name: Verify Node.js installation
     ansible.builtin.command: node -v
